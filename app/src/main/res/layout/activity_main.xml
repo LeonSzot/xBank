@@ -65,27 +65,148 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/silver" />
+            android:backgroundTint="@color/silver"
+            android:text="@string/info"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            />
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:gravity="center"
+        android:gravity="left"
         android:layout_margin="10dp"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="@string/bankName"
+            android:textColor="@color/gold"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardNumber"
             android:textColor="@color/gold"
             android:textSize="20sp"
             />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cvv"
+                android:textColor="@color/gold"
+                android:layout_marginEnd="40dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textColor="@color/gold"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nameAndSurname"
+            android:textColor="@color/gold"/>
 
     </LinearLayout>
 
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_margin="10dp">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/blik"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/blik_logo"
+                android:scaleType="fitCenter"
+                android:background="@drawable/border_circle"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="15dp"/>
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="Blik"
+                android:textColor="@color/gold"
+                android:layout_below="@id/blik"
+                android:textAlignment="center"
+                android:layout_alignStart="@id/blik"
+                android:textSize="15sp"/>
+
+            <ImageButton
+                android:id="@+id/btn2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/blik_logo"
+                android:scaleType="fitCenter"
+                android:background="@drawable/border_circle"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@id/blik"
+                android:layout_marginRight="15dp"/>
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="Przelew"
+                android:textColor="@color/gold"
+                android:layout_below="@id/btn2"
+                android:textAlignment="center"
+                android:layout_alignStart="@id/btn2"
+                android:textSize="15sp"/>
+
+            <ImageButton
+                android:id="@+id/btn3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/blik_logo"
+                android:scaleType="fitCenter"
+                android:background="@drawable/border_circle"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@id/btn2"
+                android:layout_marginRight="15dp"/>
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="Btn3"
+                android:textColor="@color/gold"
+                android:layout_below="@id/btn3"
+                android:textAlignment="center"
+                android:layout_alignStart="@id/btn3"
+                android:textSize="15sp"/>
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+    </HorizontalScrollView>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
