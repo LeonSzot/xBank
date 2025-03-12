@@ -1,7 +1,11 @@
 package com.example.xbank;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     TextView stanKonta;
+    ImageButton blik;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -26,5 +31,13 @@ public class MainActivity extends AppCompatActivity {
         });
         //stanKonta = findViewById(R.id.stanKonta);
 
+        blik = findViewById(R.id.blik);
+        blik.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, BlikActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
