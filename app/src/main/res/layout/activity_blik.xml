@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/blik"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/deepblack"
+    tools:context=".BlikActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:src="@drawable/blik_napis"
+        app:layout_constraintBottom_toTopOf="@id/kodTxt"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/kodTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Kod blik"
+        android:textColor="@color/gold"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.387" />
+    <TextView
+        android:id="@+id/kodBlik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kodblik"
+        android:textColor="@color/darkgold"
+        app:layout_constraintTop_toBottomOf="@id/kodTxt"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="@id/kodTxt"
+        app:layout_constraintRight_toRightOf="@id/kodTxt"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        app:layout_constraintLeft_toLeftOf="@id/kodBlik"
+        app:layout_constraintRight_toRightOf="@id/kodBlik"
+        app:layout_constraintTop_toBottomOf="@id/kodBlik"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/progressbar_style"
+        android:layout_margin="10dp"
+        android:max="100"
+        />
+    <TextView
+        android:id="@+id/countdownText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pozostały czas: 30"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:layout_constraintLeft_toLeftOf="@id/progressBar"
+        app:layout_constraintRight_toRightOf="@id/progressBar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

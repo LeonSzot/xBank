@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     TextView stanKonta;
-    ImageButton blik;
+    ImageButton blikBtn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         });
         //stanKonta = findViewById(R.id.stanKonta);
 
-        blik = findViewById(R.id.blik);
-        blik.setOnClickListener(new View.OnClickListener() {
+        blikBtn = findViewById(R.id.blikBtn);
+        blikBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, BlikActivity.class);

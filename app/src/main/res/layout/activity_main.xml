@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,7 +132,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/blik"
+                android:id="@+id/blikBtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
@@ -145,8 +146,8 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/blik"
-                android:layout_alignStart="@id/blik"
+                android:layout_below="@id/blikBtn"
+                android:layout_alignStart="@id/blikBtn"
                 android:text="Blik"
                 android:textAlignment="center"
                 android:textColor="@color/gold"
@@ -158,7 +159,7 @@
                 android:layout_height="60dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
-                android:layout_toEndOf="@id/blik"
+                android:layout_toEndOf="@id/blikBtn"
                 android:background="@drawable/border_circle"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
