@@ -20,7 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class BlikActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView countdownText;
-    private int countdownTime = 30000;  // Time in milliseconds (30 seconds)
+    private int countdownTime = 120000;  // Time in milliseconds (30 seconds)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class BlikActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 // Update ProgressBar and TextView on each tick
-                int progress = (int) ((millisUntilFinished / (float) timeInMillis) * 100);
+                int progress = (int) ((millisUntilFinished / (float) timeInMillis) * 200);
                 progressBar.setProgress(progress);
                 countdownText.setText("Time Remaining: " + millisUntilFinished / 1000 + " seconds");
             }
