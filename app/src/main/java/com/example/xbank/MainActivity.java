@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton blikBtn;
+    TextView kodBlik;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Uruchomienie zapytania GET w osobnym wątku
-                new GetRequestTask(MainActivity.this).execute("http://10.0.2.2:8080/api/newblik/12345678901234567890");
+                new GetRequestTask(MainActivity.this).execute("http://10.0.2.2:8080/api/newblik/1");
 
                 // Opcjonalnie, można przejść do BlikActivity
                 Intent intent = new Intent(MainActivity.this, BlikActivity.class);
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             // Wyświetlamy Toast z wynikiem w kontekście MainActivity
             Toast.makeText(mContext, "Response: " + result, Toast.LENGTH_LONG).show();
+            //TODO make blikCode show on blik activity and fix blik showing when 1st number is 0
         }
     }
 }

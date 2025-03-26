@@ -11,4 +11,6 @@
     <string name="nameAndSurname">nameAndSurname</string>
     <string name="blik">blik</string>
     <string name="historiaTransakcji">Historia transakcji</string>
+    <string name="kodBlik">000000</string>
+    <string name="kodLabel">Kod blik</string>
 </resources>
