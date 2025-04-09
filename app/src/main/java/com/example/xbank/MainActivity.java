@@ -94,9 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            // Wyświetlamy Toast z wynikiem w kontekście MainActivity
-            Toast.makeText(mContext, "Response: " + result, Toast.LENGTH_LONG).show();
-            //TODO make blikCode show on blik activity and fix blik showing when 1st number is 0
+            String zeros = "";
+            for(int i = 6 - result.length(); i > 0; i--){
+                zeros += '0';
+            }
+            zeros+=result;
+            Toast.makeText(mContext, "Response: " + zeros, Toast.LENGTH_LONG).show();
+
+            //TODO make blikCode show on blik activity
         }
     }
 }
