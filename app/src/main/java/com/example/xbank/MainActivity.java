@@ -22,8 +22,6 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton blikBtn;
-    TextView kodBlik;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Uruchomienie zapytania GET w osobnym wątku
                 new GetRequestTask(MainActivity.this).execute("http://10.0.2.2:8080/api/newblik/1");
-
-                // Opcjonalnie, można przejść do BlikActivity
-                Intent intent = new Intent(MainActivity.this, BlikActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -95,13 +89,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             String zeros = "";
-            for(int i = 6 - result.length(); i > 0; i--){
+            for (int i = 6 - result.length(); i > 0; i--) {
                 zeros += '0';
             }
-            zeros+=result;
-            Toast.makeText(mContext, "Response: " + zeros, Toast.LENGTH_LONG).show();
+            zeros += result;
 
-            //TODO make blikCode show on blik activity
+            Intent intent = new Intent(mContext, BlikActivity.class);
+            intent.putExtra("BLIK_CODE", zeros);  // Przekazujemy kod Blik
+            mContext.startActivity(intent);
+
         }
+
     }
 }

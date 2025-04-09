@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class BlikActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView countdownText;
+    private TextView kodBlik;
     private int countdownTime = 120000;  // Time in milliseconds (30 seconds)
 
     @Override
@@ -29,8 +30,14 @@ public class BlikActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         countdownText = findViewById(R.id.countdownText);
-
+        kodBlik = findViewById(R.id.kodBlik);
         startCountdown(countdownTime);
+
+        String blikCode = getIntent().getStringExtra("BLIK_CODE");
+        if (blikCode != null) {
+            // Ustawienie tekstu w kodzie Blik
+            kodBlik.setText(blikCode);
+        }
     }
 
     private void startCountdown(final int timeInMillis) {
