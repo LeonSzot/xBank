@@ -132,6 +132,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
+
                 android:id="@+id/blikBtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

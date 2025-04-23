@@ -1,18 +1,19 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Tło ProgressBara -->
     <item android:id="@android:id/background">
         <shape>
-            <solid android:color="@color/gold"/>
-            <corners android:radius="10dp"/>
-            <size android:height="1dp"/>
+            <solid android:color="#333333" />
+            <corners android:radius="10dp" />
         </shape>
     </item>
 
-
+    <!-- Właściwy pasek postępu -->
     <item android:id="@android:id/progress">
-        <shape>
-            <solid android:color="@color/gold"/>
-            <corners android:radius="10dp"/>
-            <size android:height="1dp"/>
-        </shape>
+        <clip>
+            <shape>
+                <solid android:color="@color/gold" />
+                <corners android:radius="10dp" />
+            </shape>
+        </clip>
     </item>
 </layer-list>
