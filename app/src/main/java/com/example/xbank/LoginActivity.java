@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,32 +33,52 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
 
-        loginButton.setOnClickListener(v -> attemptLogin());
+        loginButton.setOnClickListener(v -> {
+            try {
+                attemptLogin();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    private void attemptLogin() {
-        String email = loginInput.getText().toString().trim();
+    private void attemptLogin() throws JSONException {
+        String login = loginInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
-        if (email.isEmpty() || password.isEmpty()) {
+        if (login.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Uzupełnij wszystkie pola", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (checkUserCredentials(email, password)) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Nieprawidłowy login lub hasło", Toast.LENGTH_SHORT).show();
-        }
+        new Thread(() -> {
+            boolean success = false;
+            try {
+                success = checkUserCredentials(login, password);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            boolean finalSuccess = success;
+            runOnUiThread(() -> {
+                if (finalSuccess) {
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Nieprawidłowy login lub hasło", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 
-    private boolean checkUserCredentials(String login, String password) {
-        String json = "{ \"login\": " + login +
-                ", \"haslo\": " + password + " }";
+    private boolean checkUserCredentials(String login, String password) throws JSONException {
+        JSONObject jsonBody = new JSONObject();
+        jsonBody.put("login", login);
+        jsonBody.put("haslo", password);
+        String json = jsonBody.toString();
 
-        String urlString = "http://localhost:8080/api/login";
+        String urlString = "http://10.0.2.2:8080/api/login";
 
         try {
             URL url = new URL(urlString);
@@ -77,10 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                 // System.out.println("Server response: " + response);
 
                 if (response) {
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                     return true;
                 } else {
-                    Toast.makeText(this, "Login unsuccessful", Toast.LENGTH_SHORT).show();
                     return false;
 
                 }
