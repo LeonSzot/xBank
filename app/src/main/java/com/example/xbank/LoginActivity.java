@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             boolean finalSuccess = success;
             runOnUiThread(() -> {
                 if (finalSuccess) {
+                    getData(login);
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -110,5 +111,8 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    private void getData(String login){
+        //TODO send 3 requests to Bank
     }
 }
