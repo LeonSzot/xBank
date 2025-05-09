@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                     AccountData account = getData(login);  // now in background thread
 
                     runOnUiThread(() -> {
-                        Toast.makeText(this, account.getAccountType(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, account.getAccountNumber(), Toast.LENGTH_SHORT).show();
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -179,7 +179,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 String responseJson = responseBuilder.toString();
                 Log.d("LoginActivity", "Response from server: " + responseJson);  // Dodaj logowanie odpowiedzi
-
                 Gson gson = new Gson();
                 AccountData account = gson.fromJson(responseJson, AccountData.class);
 

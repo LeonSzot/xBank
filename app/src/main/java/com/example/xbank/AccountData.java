@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class AccountData {
     private double balance;
-    private int accountNumber;
+    private String accountNumber;
     private String accountType;
 
-    public AccountData(double balance, int accountId, String accountType, int accountNumber) {
+    public AccountData(double balance, String accountType, String accountNumber) {
         this.balance = balance;
         this.accountType = accountType;
         this.accountNumber = accountNumber;
@@ -17,7 +17,7 @@ public class AccountData {
         return balance;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
