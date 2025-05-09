@@ -2,6 +2,7 @@ package com.example.xbank;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,6 +19,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import com.google.gson.Gson;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,26 +54,59 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+//        new Thread(() -> {
+//            boolean success = false;
+//            try {
+//                success = checkUserCredentials(login, password);
+//            } catch (JSONException e) {
+//                throw new RuntimeException(e);
+//            }
+//            boolean finalSuccess = success;
+//            runOnUiThread(() -> {
+//                if (finalSuccess) {
+//                    try {
+//                        AccountData account = getData(login);
+//                        Toast.makeText(this, account.getAccountNumber(), Toast.LENGTH_SHORT).show();
+//                    } catch (JSONException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                } else {
+//                    Toast.makeText(LoginActivity.this, "Nieprawidłowy login lub hasło", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }).start();
+
         new Thread(() -> {
-            boolean success = false;
+            boolean success;
             try {
                 success = checkUserCredentials(login, password);
+
+                if (success) {
+                    AccountData account = getData(login);  // now in background thread
+
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, account.getAccountType(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    });
+
+                } else {
+                    runOnUiThread(() ->
+                            Toast.makeText(LoginActivity.this, "Nieprawidłowy login lub hasło", Toast.LENGTH_SHORT).show()
+                    );
+                }
+
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-            boolean finalSuccess = success;
-            runOnUiThread(() -> {
-                if (finalSuccess) {
-                    getData(login);
-                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Nieprawidłowy login lub hasło", Toast.LENGTH_SHORT).show();
-                }
-            });
         }).start();
+
     }
 
     private boolean checkUserCredentials(String login, String password) throws JSONException {
@@ -112,7 +148,48 @@ public class LoginActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
     }
-    private void getData(String login){
-        //TODO send 3 requests to Bank
+    private AccountData getData(String login) throws JSONException {
+        JSONObject jsonBody = new JSONObject();
+        jsonBody.put("login", login);
+        String json = jsonBody.toString();
+
+        String urlString = "http://10.0.2.2:8080/api/getAccount";
+
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = json.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    connection.getResponseCode() >= 200 && connection.getResponseCode() < 300 ?
+                            connection.getInputStream() : connection.getErrorStream()))) {
+
+                StringBuilder responseBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+
+                String responseJson = responseBuilder.toString();
+                Log.d("LoginActivity", "Response from server: " + responseJson);  // Dodaj logowanie odpowiedzi
+
+                Gson gson = new Gson();
+                AccountData account = gson.fromJson(responseJson, AccountData.class);
+
+                return account;
+            }
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
