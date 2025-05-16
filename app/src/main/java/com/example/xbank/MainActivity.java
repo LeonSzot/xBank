@@ -22,6 +22,10 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton blikBtn;
+    TextView cardNumber;
+    TextView CVV;
+    TextView date;
+    TextView name;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         blikBtn = findViewById(R.id.blikBtn);
+        cardNumber = findViewById(R.id.cardNumber);
+        CVV = findViewById(R.id.CVV);
+        date = findViewById(R.id.date);
+        name = findViewById(R.id.name);
         blikBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 new GetRequestTask(MainActivity.this).execute("http://10.0.2.2:8080/api/newblik/1");
             }
         });
+
     }
 
     // AsyncTask do wykonania zapytania GET w tle

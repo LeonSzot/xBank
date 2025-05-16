@@ -89,7 +89,15 @@ public class LoginActivity extends AppCompatActivity {
                     AccountData account = getData(login);  // now in background thread
 
                     runOnUiThread(() -> {
-                        Toast.makeText(this, account.getAccountNumber(), Toast.LENGTH_SHORT).show();
+                        String accountNumber = account.getAccountNumber();
+
+                        // Sprawdzenie, czy numer konta nie jest pusty
+                        if (accountNumber != null && !accountNumber.isEmpty()) {
+                            Toast.makeText(this, accountNumber, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Brak numeru konta", Toast.LENGTH_SHORT).show();
+                        }
+
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -106,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
         }).start();
+
 
     }
 
@@ -129,25 +138,32 @@ public class LoginActivity extends AppCompatActivity {
                 os.write(input, 0, input.length);
             }
 
+            int responseCode = connection.getResponseCode();
+            Log.d("LoginActivity", "Server response code: " + responseCode);  // Log the response code
+
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    connection.getResponseCode() >= 200 && connection.getResponseCode() < 300 ?
-                            connection.getInputStream() : connection.getErrorStream()))) {
+                    responseCode >= 200 && responseCode < 300 ? connection.getInputStream() : connection.getErrorStream()))) {
 
-                boolean response = Boolean.parseBoolean(reader.readLine().trim());
-                // System.out.println("Server response: " + response);
-
-                if (response) {
-                    return true;
-                } else {
-                    return false;
-
+                StringBuilder responseBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseBuilder.append(line);
                 }
+
+                String responseJson = responseBuilder.toString();
+                Log.d("LoginActivity", "Response from server: " + responseJson);  // Log the response
+
+                boolean response = Boolean.parseBoolean(responseJson.trim());
+                return response;
+
             }
 
         } catch (IOException e) {
+            Log.e("LoginActivity", "Error during HTTP request", e);  // Log the error
             throw new RuntimeException(e);
         }
     }
+
     private AccountData getData(String login) throws JSONException {
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("login", login);
@@ -167,9 +183,11 @@ public class LoginActivity extends AppCompatActivity {
                 os.write(input, 0, input.length);
             }
 
+            int responseCode = connection.getResponseCode();
+            Log.d("LoginActivity", "Get account response code: " + responseCode);  // Log response code
+
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    connection.getResponseCode() >= 200 && connection.getResponseCode() < 300 ?
-                            connection.getInputStream() : connection.getErrorStream()))) {
+                    responseCode >= 200 && responseCode < 300 ? connection.getInputStream() : connection.getErrorStream()))) {
 
                 StringBuilder responseBuilder = new StringBuilder();
                 String line;
@@ -178,17 +196,27 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 String responseJson = responseBuilder.toString();
-                Log.d("LoginActivity", "Response from server: " + responseJson);  // Dodaj logowanie odpowiedzi
-                Gson gson = new Gson();
-                AccountData account = gson.fromJson(responseJson, AccountData.class);
+                Log.d("LoginActivity", "Response from server: " + responseJson);  // Log server response
+
+                // Zakładam, że odpowiedź z serwera to String JSON
+                JSONObject response = new JSONObject(responseJson);
+                double saldo = response.getDouble("saldo");
+                String numerKonta = response.getString("numerKonta");
+                String typKonta = response.getString("typKonta");
+
+// Tworzymy obiekt Account
+                AccountData account = new AccountData(saldo, numerKonta, typKonta);
+
 
                 return account;
+
             }
 
-
         } catch (IOException e) {
+            Log.e("LoginActivity", "Error during HTTP request", e);  // Log the error
             throw new RuntimeException(e);
         }
     }
+
 
 }

@@ -89,6 +89,7 @@
             android:textSize="40sp" />
 
         <TextView
+            android:id="@+id/cardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cardNumber"
@@ -100,6 +101,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/CVV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="40dp"
@@ -107,6 +109,7 @@
                 android:textColor="@color/gold" />
 
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/date"
@@ -114,9 +117,10 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nameAndSurname"
+            android:text="ImieINazwisko"
             android:textColor="@color/gold" />
 
     </LinearLayout>
