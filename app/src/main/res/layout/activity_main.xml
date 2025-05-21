@@ -46,6 +46,7 @@
                 android:textSize="30sp" />
 
             <TextView
+                android:id="@+id/balanceTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/accountBalance"
@@ -68,7 +69,8 @@
             android:minHeight="0dp"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
-            android:text="@string/info" />
+            android:text="@string/info"
+            android:id="@+id/infoBtn"/>
 
     </LinearLayout>
 

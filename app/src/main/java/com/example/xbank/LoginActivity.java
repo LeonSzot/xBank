@@ -19,7 +19,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import com.google.gson.Gson;
+import java.util.List;
+
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 //            runOnUiThread(() -> {
 //                if (finalSuccess) {
 //                    try {
-//                        AccountData account = getData(login);
+//                        AccountData account = getAccountData(login);
 //                        Toast.makeText(this, account.getAccountNumber(), Toast.LENGTH_SHORT).show();
 //                    } catch (JSONException e) {
 //                        throw new RuntimeException(e);
@@ -86,20 +87,15 @@ public class LoginActivity extends AppCompatActivity {
                 success = checkUserCredentials(login, password);
 
                 if (success) {
-                    AccountData account = getData(login);  // now in background thread
+                    AccountData account = getAccountData(login);  // now in background thread
 
                     runOnUiThread(() -> {
-                        String accountNumber = account.getAccountNumber();
-
-                        // Sprawdzenie, czy numer konta nie jest pusty
-                        if (accountNumber != null && !accountNumber.isEmpty()) {
-                            Toast.makeText(this, accountNumber, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "Brak numeru konta", Toast.LENGTH_SHORT).show();
-                        }
 
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("accountNumber", account.getAccountNumber());
+                        intent.putExtra("accountType", account.getAccountType());
+                        intent.putExtra("balance", account.getBalance());
                         startActivity(intent);
                         finish();
                     });
@@ -164,7 +160,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private AccountData getData(String login) throws JSONException {
+
+    private AccountData getAccountData(String login) throws JSONException {
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("login", login);
         String json = jsonBody.toString();
@@ -204,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                 String numerKonta = response.getString("numerKonta");
                 String typKonta = response.getString("typKonta");
 
-// Tworzymy obiekt Account
+                // Tworzymy obiekt Account
                 AccountData account = new AccountData(saldo, numerKonta, typKonta);
 
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,18 +16,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.WindowInsetsCompat;
 
+
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    Button infoBtn;
     ImageButton blikBtn;
+    TextView balanceTxt;
     TextView cardNumber;
     TextView CVV;
     TextView date;
     TextView name;
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +44,17 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        balanceTxt = findViewById(R.id.balanceTxt);
+        infoBtn = findViewById(R.id.infoBtn);
         blikBtn = findViewById(R.id.blikBtn);
         cardNumber = findViewById(R.id.cardNumber);
         CVV = findViewById(R.id.CVV);
         date = findViewById(R.id.date);
         name = findViewById(R.id.name);
+        double balance = getIntent().getDoubleExtra("balance", 0);
+        String accountNumber = getIntent().getStringExtra("accountNumber");
+        String accountType = getIntent().getStringExtra("accountType");
+        balanceTxt.setText(Double.toString(balance));
         blikBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
                 new GetRequestTask(MainActivity.this).execute("http://10.0.2.2:8080/api/newblik/1");
             }
         });
+        infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Toast.makeText(MainActivity.this, accountNumber + "\n" + accountType, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 

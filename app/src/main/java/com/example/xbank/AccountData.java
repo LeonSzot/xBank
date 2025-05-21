@@ -1,7 +1,5 @@
 package com.example.xbank;
 
-import java.util.Date;
-
 public class AccountData {
     private double balance;
     private String accountNumber;
